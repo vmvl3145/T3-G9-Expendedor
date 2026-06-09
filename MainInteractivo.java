@@ -10,6 +10,7 @@ import java.util.Scanner;
  *     No existe saldo previo ni almacenamiento de monedas entre sesiones.
  * </p>
  */
+
 public class MainInteractivo {
 
     /**
