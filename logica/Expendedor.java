@@ -43,11 +43,22 @@ public class Expendedor {
 
         /** Llenado de máquina con n productos por cada clase */
         for (int i = 0; i < n; i++) {
-            cocacola.add(new Cocacola());
-            sprite.add(new Sprite());
-            fanta.add(new Fanta());
-            snickers.add(new Snickers());
-            super8.add(new Super8());
+
+            // Generada numero aleatorio para series de productos
+            int min = 100;
+            int max = 999;
+
+            int numeroAleatorio1 = ThreadLocalRandom.current().nextInt(min,max + 1);
+            int numeroAleatorio2 = ThreadLocalRandom.current().nextInt(min,max + 1);
+            int numeroAleatorio3 = ThreadLocalRandom.current().nextInt(min,max + 1);
+            int numeroAleatorio4 = ThreadLocalRandom.current().nextInt(min,max + 1);
+            int numeroAleatorio5 = ThreadLocalRandom.current().nextInt(min,max + 1);
+
+            cocacola.add(new Cocacola(numeroAleatorio1));
+            sprite.add(new Sprite(numeroAleatorio2));
+            fanta.add(new Fanta(numeroAleatorio3));
+            snickers.add(new Snickers(numeroAleatorio4));
+            super8.add(new Super8(numeroAleatorio5));
         }
     }
 
