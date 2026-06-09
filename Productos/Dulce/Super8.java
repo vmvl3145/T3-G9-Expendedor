@@ -1,8 +1,8 @@
 package Productos.Dulce;
 /** Clase concreta que representa un dulce Super8 */
 public class Super8 extends Dulce {
-    public Super8() {
-        super();
+    public Super8(int serie) {
+        super(serie);
     }
     /**
      * Implementación del consumo para Super8
