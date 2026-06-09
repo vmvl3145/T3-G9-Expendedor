@@ -20,6 +20,8 @@ public abstract class Producto {
     public int getNumeroDeSerie() {
         return numeroDeSerie;
     }
-
+        /**
+    @return bebida
+     */
     public abstract String consumir();
 }
