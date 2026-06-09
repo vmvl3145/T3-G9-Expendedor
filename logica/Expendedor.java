@@ -19,6 +19,10 @@ public class Expendedor {
     private Deposito<Producto> super8;
     /** Depósito para monedas que luego se retornan en el vuelto*/
     private Deposito<Moneda> montoVuelto;
+    private Deposito<Moneda> montoCompra;
+
+    /** Deposito de producto unico */
+    private Producto productoComprado;
 
     /** Constructor para inicializar depósitos y stock de la máquina
      * @param n Cantidad de productos de cada tipo que tendrá la máquina en el comienzo
@@ -31,6 +35,8 @@ public class Expendedor {
         this.snickers = new Deposito<>();
         this.super8 = new Deposito<>();
         this.montoVuelto = new Deposito<>();
+        this.montoCompra = new Deposito<>();
+        this.productoComprado = null;
 
         /** Llenado de máquina con n productos por cada clase */
         for (int i = 0; i < n; i++) {
@@ -77,12 +83,11 @@ private Deposito<Producto> getDeposito(Enumeracion seleccion) {
      * Verifica la validación del pago, la existencia de stock y gestiona el vuelto.
      * @param moneda Moneda entregada por el usuario para el pago.
      * @param numero Indice del deposito del producto deseado.
-     * @return El objeto Producto extraido del deposito.
      * @throws PagoIncorrectoException Si se intenta pagar con una moneda nula
      * @throws NoHayProductoException Si el deposito seleccionado no tiene stock
      * @throws PagoInsuficienteException Si el valor de la moneda es menor al precio del producto
      */
-public Producto comprarProducto(Moneda moneda, int numero)
+public void comprarProducto(Moneda moneda, int numero)
         throws PagoIncorrectoException, NoHayProductoException, PagoInsuficienteException {
 
     if (moneda == null) {
@@ -91,7 +96,7 @@ public Producto comprarProducto(Moneda moneda, int numero)
 
     Enumeracion seleccion = getEnumeracion(numero);
 
-    // verificar stock
+    // Verificar stock
     Deposito<Producto> deposito = getDeposito(seleccion);
     Producto producto = deposito.get();
     if (producto == null) {
@@ -99,21 +104,25 @@ public Producto comprarProducto(Moneda moneda, int numero)
         throw new NoHayProductoException("No queda " + seleccion.getNombre());
     }
 
-    //despues verificar precio
-    if (moneda.getValor() < seleccion.getPrecio()) {
-        montoVuelto.add(moneda);
-        throw new PagoInsuficienteException("Pago insuficiente para " + seleccion.getNombre());
-    }
+    // Si la compra es exitosa...
+    montoCompra.add(moneda);
 
-    //confirmado que se compro, devolvemos vuelto.
+    this.productoComprado = producto;
+
     int vuelto = moneda.getValor() - seleccion.getPrecio();
-    while (vuelto >= 100) {
+    while(vuelto >= 100) {
         montoVuelto.add(new Moneda100());
-        vuelto -= 100;
+        vuelto-=100;
     }
-
-    return producto;
 }
+
+// Getter Producto
+public Producto getProducto() {
+    Producto aux = this.productoComprado;
+    this.productoComprado = null;
+    return aux;
+}
+
 //Vuelto
 public Moneda getVuelto() {
     return montoVuelto.get();
