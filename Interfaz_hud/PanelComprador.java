@@ -90,7 +90,8 @@ public class PanelComprador extends JPanel {
         Moneda monedaParaPago = monedero.entregarMonedaSeleccionada();
 
         try {
-            Productos.Producto prod = exp.comprarProducto(monedaParaPago, idProducto);
+            exp.comprarProducto(monedaParaPago, idProducto);
+            Productos.Producto prod = exp.getProducto();
             // Compra exitosa
             this.idUltimoProductoComprado = idProducto;
             this.nombreUltimoProducto = prod.consumir();

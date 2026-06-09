@@ -36,7 +36,10 @@ public class PanelPrincipal extends JPanel implements MouseListener {
         int mitad = this.getWidth() / 2;
 
         if (x < mitad) {
-            exp.procesarClick(x, y);
+            int idSeleccionado = exp.procesarClick(x, y);
+            if (idSeleccionado > 0) {
+                com.efectuarCompra(idSeleccionado);
+            }
         } else {
             com.procesarClick(x - mitad, y);
         }

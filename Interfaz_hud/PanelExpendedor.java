@@ -20,7 +20,7 @@ public class PanelExpendedor extends JPanel {
         super.paintComponent(g);
 
         // maquina
-        g.setColor(Color.DARK_GRAY);
+        g.setColor(Color.GRAY);
         g.fillRect(50, 50, 400, 550);
 
         // vidrio
@@ -64,6 +64,7 @@ public class PanelExpendedor extends JPanel {
             if (y >= 260 && y <= 285) return 3;
             if (y >= 295 && y <= 320) return 4;
             if (y >= 330 && y <= 355) return 5;
+               if (x >= 360 && x <= 390) return 5;
         }
 
         // vidrio

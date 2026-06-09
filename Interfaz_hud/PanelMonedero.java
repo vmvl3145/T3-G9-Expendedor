@@ -65,12 +65,14 @@ public class PanelMonedero extends JPanel {
 
         if (monedaClickeada != null) {
             int valor = monedaClickeada.getValor();
+            int serieAleatoria = (int) (Math.random() * 900) + 100;
 
-            if (valor == 1000) this.monedaSeleccionada = new Moneda1000();
-            else if (valor == 500) this.monedaSeleccionada = new Moneda500();
-            else if (valor == 100) this.monedaSeleccionada = new Moneda100();
+            if (valor == 1000) this.monedaSeleccionada = new Moneda1000(serieAleatoria);
+            else if (valor == 500) this.monedaSeleccionada = new Moneda500(serieAleatoria);
+            else if (valor == 100) this.monedaSeleccionada = new Moneda100(serieAleatoria);
+
             monedasEnBolsillo.remove(monedaClickeada);
-            System.out.println("Moneda de $" + valor + " cargada en el comprador.");
+            System.out.println("Moneda de $" + valor + " (Serie: " + serieAleatoria + ") cargada.");
             this.repaint();
         }
     }
