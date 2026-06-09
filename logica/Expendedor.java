@@ -98,12 +98,6 @@ private Deposito<Producto> getDeposito(Enumeracion seleccion) {
 public void comprarProducto(Moneda moneda, int numero)
         throws PagoIncorrectoException, NoHayProductoException, PagoInsuficienteException {
 
-    // Generada numero aleatorio para serie de moneda
-    int min = 100;
-    int max = 999;
-
-    int numeroAleatorio = ThreadLocalRandom.current().nextInt(min,max + 1);
-
     if (moneda == null) {
         throw new PagoIncorrectoException("No se ha pagado.");
     }
@@ -124,9 +118,19 @@ public void comprarProducto(Moneda moneda, int numero)
     this.productoComprado = producto;
 
     int vuelto = moneda.getValor() - seleccion.getPrecio();
-    while(vuelto >= 100) {
-        montoVuelto.add(new Moneda100(numeroAleatorio));
-        vuelto-=100;
+    while(vuelto > 0) {
+        int serieAleatoria = ThreadLocalRandom.current().nextInt(100, 1000);
+
+        if (vuelto >= 1000) {
+            montoVuelto.add(new Moneda1000(serieAleatoria));
+            vuelto -= 1000;
+        } else if (vuelto >= 500) {
+            montoVuelto.add(new Moneda500(serieAleatoria));
+            vuelto -= 500;
+        } else if (vuelto >= 100) {
+            montoVuelto.add(new Moneda100(serieAleatoria));
+            vuelto -= 100;
+        }
     }
 }
 
