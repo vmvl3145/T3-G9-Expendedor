@@ -4,6 +4,7 @@
  * - comprarProducto: lanza las 3 excepciones. Maneja el pago, verifica stock y calcula vuelto
  * - El vuelto debe ser de monedas de $100 creadas al momento de la compra
  */
+package logica;
 import Moneda.*;
 import Productos.*;
 import Productos.Bebidas.*;
