@@ -8,6 +8,7 @@ import Excepciones.*;
 public class Comprador {
     private String saborConsumido;
     private int vueltoTotal;
+    private Producto productoObtenido;
 
     /**
      * Constructor que realiza la accion de compra.
@@ -31,6 +32,7 @@ public class Comprador {
             expendedor.comprarProducto(moneda, seleccion);
             Producto producto = expendedor.getProducto();
             this.saborConsumido = producto.consumir();
+            this.productoObtenido = producto;
         } catch (NoHayProductoException | PagoInsuficienteException e) {
             /** si fallo, retirar la moneda devuelta y relanzar al main */
             Moneda monedaVuelto = expendedor.getVuelto();
@@ -51,4 +53,5 @@ public class Comprador {
 
     public String getSaborConsumido() { return saborConsumido; }
     public int getVueltoTotal() { return vueltoTotal; }
+    public Producto getProductoObtenido() { return productoObtenido; }
 }
