@@ -28,8 +28,9 @@ public class Comprador {
         this.vueltoTotal = 0;
 
         try {
-            /** ejecutar compra y consumir producto haciendo una cadena (no se guarda como atributo) */
-            this.saborConsumido = expendedor.comprarProducto(moneda, seleccion).consumir();
+            expendedor.comprarProducto(moneda, seleccion);
+            Producto producto = expendedor.getProducto();
+            this.saborConsumido = producto.consumir();
         } catch (NoHayProductoException | PagoInsuficienteException e) {
             /** si fallo, retirar la moneda devuelta y relanzar al main */
             Moneda monedaVuelto = expendedor.getVuelto();
