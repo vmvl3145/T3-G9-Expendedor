@@ -4,11 +4,14 @@
  * - comprarProducto: lanza las 3 excepciones. Maneja el pago, verifica stock y calcula vuelto
  * - El vuelto debe ser de monedas de $100 creadas al momento de la compra
  */
+package logica;
+
 import Moneda.*;
 import Productos.*;
 import Productos.Bebidas.*;
 import Productos.Dulce.*;
 import Excepciones.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 /** Clase para manejo y gestión de depósitos junto almacenamiento de máquina Expendedora */
 public class Expendedor {
@@ -90,6 +93,12 @@ private Deposito<Producto> getDeposito(Enumeracion seleccion) {
 public void comprarProducto(Moneda moneda, int numero)
         throws PagoIncorrectoException, NoHayProductoException, PagoInsuficienteException {
 
+    // Generada numero aleatorio para serie de moneda
+    int min = 100;
+    int max = 999;
+
+    int numeroAleatorio = ThreadLocalRandom.current().nextInt(min,max + 1);
+
     if (moneda == null) {
         throw new PagoIncorrectoException("No se ha pagado.");
     }
@@ -111,7 +120,7 @@ public void comprarProducto(Moneda moneda, int numero)
 
     int vuelto = moneda.getValor() - seleccion.getPrecio();
     while(vuelto >= 100) {
-        montoVuelto.add(new Moneda100());
+        montoVuelto.add(new Moneda100(numeroAleatorio));
         vuelto-=100;
     }
 }
