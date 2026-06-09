@@ -1,5 +1,8 @@
 import Moneda.*;
 import Excepciones.*;
+package logica;
+import Productos.Producto;
+
 
 /**
  * Clase que representa a un cliente de la máquina expendedora.
