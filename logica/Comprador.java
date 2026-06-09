@@ -1,6 +1,9 @@
 package logica;
 import Moneda.*;
 import Excepciones.*;
+package logica;
+import Productos.Producto;
+
 
 /**
  * Clase que representa a un cliente de la máquina expendedora.
@@ -9,6 +12,7 @@ import Excepciones.*;
 public class Comprador {
     private String saborConsumido;
     private int vueltoTotal;
+    private Producto productoObtenido;
 
     /**
      * Constructor que realiza la accion de compra.
@@ -29,8 +33,10 @@ public class Comprador {
         this.vueltoTotal = 0;
 
         try {
-            /** ejecutar compra y consumir producto haciendo una cadena (no se guarda como atributo) */
-            this.saborConsumido = expendedor.comprarProducto(moneda, seleccion).consumir();
+            expendedor.comprarProducto(moneda, seleccion);
+            Producto producto = expendedor.getProducto();
+            this.saborConsumido = producto.consumir();
+            this.productoObtenido = producto;
         } catch (NoHayProductoException | PagoInsuficienteException e) {
             /** si fallo, retirar la moneda devuelta y relanzar al main */
             Moneda monedaVuelto = expendedor.getVuelto();
@@ -51,4 +57,5 @@ public class Comprador {
 
     public String getSaborConsumido() { return saborConsumido; }
     public int getVueltoTotal() { return vueltoTotal; }
+    public Producto getProductoObtenido() { return productoObtenido; }
 }

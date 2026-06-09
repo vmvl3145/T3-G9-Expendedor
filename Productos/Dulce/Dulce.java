@@ -1,9 +1,15 @@
 package Productos.Dulce;
 import Productos.Producto;
-/** Clase abstract para representar productos tipo dulce */
+
+/**
+Clase abstracta dulce.
+ */
 public abstract class Dulce extends Producto {
-    /** Constructor que inicializa un dulce */
-    public Dulce() {
-        super();
+
+    /**
+     * @param serie Numero de serie asignado x expendedor
+     */
+    public Dulce(int serie) {
+        super(serie);
     }
 }

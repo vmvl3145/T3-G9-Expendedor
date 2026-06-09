@@ -1,11 +1,27 @@
 package Productos;
+
 /**
- * Clase abstracta que representa un producto genérico de la maquina expendedora*/
+ * Clase abstracta que representa un producto genérico de la maquina expendedora.
+ */
 public abstract class Producto {
-    public Producto() {
+
+    private int numeroDeSerie;
+
+    /**
+     @param serie
+     */
+    public Producto(int serie) {
+        this.numeroDeSerie = serie;
     }
-    /** Método abstracto para asignar a cada producto decir qué es
-     * @return El nombre o sabor de producto
+
+    /**
+    @return numero de serie
+     */
+    public int getNumeroDeSerie() {
+        return numeroDeSerie;
+    }
+        /**
+    @return bebida
      */
     public abstract String consumir();
 }
