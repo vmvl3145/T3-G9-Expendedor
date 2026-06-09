@@ -1,8 +1,8 @@
 package Productos.Bebidas;
 /** Clase concreta que representa una bebida Coca-Cola */
 public class Cocacola extends Bebida {
-    public Cocacola() {
-        super();
+    public Cocacola(int serie) {
+        super(serie);
     }
     /**
      * Implementación del consumo para CocaCola

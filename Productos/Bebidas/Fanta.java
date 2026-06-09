@@ -1,8 +1,8 @@
 package Productos.Bebidas;
 /** Clase concreta que representa una bebida Fanta */
 public class Fanta extends Bebida {
-    public Fanta() {
-        super();
+    public Fanta(int serie) {
+        super(serie);
     }
     /**
      * Implementación del consumo para Fanta
