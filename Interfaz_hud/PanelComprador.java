@@ -1,16 +1,20 @@
 package Interfaz_hud;
-
 import javax.swing.JPanel;
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
+
 import logica.Expendedor;
 
 public class PanelComprador extends JPanel {
     private Expendedor exp;
+    private PanelMonedero monedero;
 
     public PanelComprador(Expendedor exp) {
         this.exp = exp;
-        this.setBackground(Color.WHITE); // Color del fondo derecho
+        this.setBackground(Color.WHITE);
+        this.setLayout(null);
+        this.monedero = new PanelMonedero();
+        this.monedero.setBounds(10, 420, 450, 150);
+        this.add(this.monedero);
     }
 
     @Override
@@ -18,18 +22,26 @@ public class PanelComprador extends JPanel {
         super.paintComponent(g);
 
         g.setColor(Color.BLACK);
-        g.drawString("Mesa del Comprador", 150, 50);
+        g.drawString("Seleccione un Producto:", 40, 220);
 
-        // Representación de una moneda de $1000
-        g.setColor(Color.ORANGE);
-        g.fillOval(100, 100, 80, 80);
-        g.setColor(Color.BLACK);
-        g.drawString("$1000", 125, 145);
-
-        // Botón virtual simulado para comprar Coca-Cola
         g.setColor(Color.RED);
-        g.fillRect(100, 250, 150, 50);
+        g.fillRect(40, 250, 160, 40);
         g.setColor(Color.WHITE);
-        g.drawString("Comprar CocaCola", 120, 280);
+        g.drawString("Comprar CocaCola", 60, 275);
+
+        g.setColor(Color.GREEN.darker());
+        g.fillRect(40, 300, 160, 40);
+        g.setColor(Color.WHITE);
+        g.drawString("Comprar Sprite", 70, 325);
+
+        g.setColor(Color.ORANGE);
+        g.fillRect(40, 200, 160, 40);
+        g.setColor(Color.WHITE);
+        g.drawString("Comprar Fanta", 75, 225);
+
+    }
+
+    public void procesarClick(int x, int y) {
+        System.out.println("Clic recibido en el Comprador en (X:" + x + " Y:" + y + ")");
     }
 }
