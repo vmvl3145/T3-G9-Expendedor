@@ -1,7 +1,6 @@
 package logica;
 import Moneda.*;
 import Excepciones.*;
-package logica;
 import Productos.Producto;
 
 
