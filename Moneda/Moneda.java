@@ -4,7 +4,14 @@ package Moneda;
  * Clase abstracta para Monedas e implementa Comparable para permitir que las monedas se ordenen por su valor.
  */
 public abstract class Moneda implements Comparable<Moneda> {
-    public Moneda() {
+    private int numeroDeSerie;
+
+    public Moneda(int serie) {
+        this.numeroDeSerie = serie;
+    }
+
+    public int getNumeroDeSerie() {
+        return numeroDeSerie;
     }
 
     /**
@@ -29,6 +36,6 @@ public abstract class Moneda implements Comparable<Moneda> {
      */
     @Override
     public String toString() {
-        return "Moneda de $" + this.getValor() + "(Serie: " + this.numeroDeSerie() + ")";
+        return "Moneda de $" + this.getValor() + "(Serie: " + this.getNumeroDeSerie() + ")";
     }
 }
