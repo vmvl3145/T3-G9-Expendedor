@@ -1,3 +1,4 @@
+package logica;
 import java.util.ArrayList;
 /**
  * - Clase genérica con Deposito<T>.

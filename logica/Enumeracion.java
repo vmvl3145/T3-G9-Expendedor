@@ -1,5 +1,6 @@
+package logica;
 /** Enumeración que contiene precio de los productos y nombres correspondientemente */
-public enum Enumeracion {
+ enum Enumeracion {
     COCA_COLA(1000, "CocaCola"),
     SPRITE(900, "Sprite"),
     FANTA(900, "Fanta"),
