@@ -17,6 +17,7 @@ public class PanelComprador extends JPanel {
     private int idUltimoProductoComprado = -1;
     private String nombreUltimoProducto = "";
     private ArrayList<VistaMoneda> vueltoVisual = new ArrayList<>();
+    private Image imgCoca, imgSprite, imgFanta, imgSnickers, imgSuper8;
 
     public PanelComprador(Expendedor exp) {
         this.exp = exp;
@@ -27,6 +28,11 @@ public class PanelComprador extends JPanel {
         this.add(this.monedero);
         this.mensajeEstado = "Esperando interacción...";
         this.colorMensaje = Color.GRAY;
+        this.imgCoca = new javax.swing.ImageIcon("recursos/cocaCola.png").getImage();
+        this.imgSprite = new javax.swing.ImageIcon("recursos/sprite.png").getImage();
+        this.imgFanta = new javax.swing.ImageIcon("recursos/fanta.png").getImage();
+        this.imgSnickers = new javax.swing.ImageIcon("recursos/snickers.png").getImage();
+        this.imgSuper8 = new javax.swing.ImageIcon("recursos/super8.png").getImage();
     }
 
     @Override
@@ -39,33 +45,22 @@ public class PanelComprador extends JPanel {
         if (idUltimoProductoComprado != -1) {
             g.setFont(new Font("Arial", Font.PLAIN, 12));
             g.drawString("Acabas de retirar:", 40, 60);
-            switch (idUltimoProductoComprado) {
-                // CocaCola
-                case 1:
-                    g.setColor(Color.RED);
-                break;
-                // Sprite
-                case 2:
-                    g.setColor(Color.GREEN.darker());
-                break;
-                // Fanta
-                case 3:
-                    g.setColor(Color.ORANGE);
-                break;
-                // Snickers
-                case 4:
-                    g.setColor(new Color(101, 67, 33));
-                break;
-                // Super8
-                case 5: g.setColor(Color.YELLOW.darker());
-                break;
-            }
-            g.fillRect(40, 70, 50, 50);
-            g.setColor(Color.BLACK);
-            g.drawRect(40, 70, 50, 50);
-            g.drawString(nombreUltimoProducto, 100, 100);
-        }
 
+            Image imgDibujar = null;
+            switch (idUltimoProductoComprado) {
+                case 1: imgDibujar = imgCoca; break;
+                case 2: imgDibujar = imgSprite; break;
+                case 3: imgDibujar = imgFanta; break;
+                case 4: imgDibujar = imgSnickers; break;
+                case 5: imgDibujar = imgSuper8; break;
+            }
+            if (imgDibujar != null) {
+                // Dibujamos la imagen en vez del cuadrado de color
+                g.drawImage(imgDibujar, 40, 70, 40, 60, this);
+            }
+            g.setColor(Color.BLACK);
+            g.drawString(nombreUltimoProducto, 90, 100);
+        }
         if (vueltoVisual != null && !vueltoVisual.isEmpty()) {
             g.setColor(Color.BLACK);
             g.drawString("Tu Vuelto:", 40, 150);

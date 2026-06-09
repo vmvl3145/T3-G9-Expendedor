@@ -111,6 +111,11 @@ public void comprarProducto(Moneda moneda, int numero)
         montoVuelto.add(moneda);
         throw new NoHayProductoException("No queda " + seleccion.getNombre());
     }
+    // Verificar si el dinero alcanza
+    if (moneda.getValor() < seleccion.getPrecio()) {
+        montoVuelto.add(moneda); // Se devuelve la moneda ingresada
+        throw new PagoInsuficienteException("Dinero insuficiente para " + seleccion.getNombre());
+    }
 
     // Si la compra es exitosa...
     montoCompra.add(moneda);

@@ -32,7 +32,7 @@ public class VidrioBebida {
         // CocaCola (id 1)
         g.setColor(Color.RED);
         g.fillRect(this.x + 20, this.y + 30, 40, 70);
-        g.drawImage(imgCocaCola, this.x + 20, this.y + 30, 40, 70, null);
+        g.drawImage(imgCocaCola, this.x + 8, this.y + 33, 65, 65, null);
         g.setColor(Color.BLACK);
         g.drawString("1", this.x + 35, this.y + 125);
 
@@ -46,21 +46,21 @@ public class VidrioBebida {
         // Fanta (id 3)
         g.setColor(Color.ORANGE);
         g.fillRect(this.x + 170, this.y + 30, 40, 70);
-        g.drawImage(imgFanta, this.x + 170, this.y + 30, 40, 70, null);
+        g.drawImage(imgFanta, this.x + 160, this.y + 25, 60, 80, null);
         g.setColor(Color.BLACK);
         g.drawString("3", this.x + 185, this.y + 125);
 
         // Snickers (id 4)
         g.setColor(new Color(101, 67, 33));
         g.fillRect(this.x + 20, this.y + 190, 65, 35);
-        g.drawImage(imgSnickers, this.x + 20, this.y + 190, 65, 35, null);
+        g.drawImage(imgSnickers, this.x + 20, this.y + 175, 65, 65, null);
         g.setColor(Color.BLACK);
         g.drawString("4", this.x + 45, this.y + 255);
 
         // Super8 (id 5)
         g.setColor(Color.YELLOW.darker());
         g.fillRect(this.x + 130, this.y + 190, 65, 35);
-        g.drawImage(imgSuper8, this.x + 130, this.y + 190, 65, 35, null);
+        g.drawImage(imgSuper8, this.x + 133, this.y + 160, 60, 85, null);
         g.setColor(Color.BLACK);
         g.drawString("5", this.x + 155, this.y + 255);
     }

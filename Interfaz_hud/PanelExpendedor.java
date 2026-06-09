@@ -57,14 +57,12 @@ public class PanelExpendedor extends JPanel {
     }
 
     public int procesarClick(int x, int y) {
-        // botones
         if (x >= 360 && x <= 390) {
-            if (y >= 190 && y <= 215) return 1;
-            if (y >= 225 && y <= 250) return 2;
-            if (y >= 260 && y <= 285) return 3;
-            if (y >= 295 && y <= 320) return 4;
-            if (y >= 330 && y <= 355) return 5;
-               if (x >= 360 && x <= 390) return 5;
+            if (y >= 190 && y <= 215) return 1; // CocaCola
+            if (y >= 225 && y <= 250) return 2; // Sprite
+            if (y >= 260 && y <= 285) return 3; // Fanta
+            if (y >= 295 && y <= 320) return 4; // Snickers
+            if (y >= 330 && y <= 355) return 5; // Super8
         }
 
         // vidrio

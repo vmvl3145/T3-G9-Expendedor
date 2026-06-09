@@ -1,5 +1,6 @@
 package Interfaz_hud;
 
+import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -14,10 +15,10 @@ public class PanelMonedero extends JPanel {
     public PanelMonedero() {
         this.monedasEnBolsillo = new ArrayList<>();
         this.setBackground(new Color(230, 230, 230));
-        monedasEnBolsillo.add(new VistaMoneda(10, 30, 1000, 101));
-        monedasEnBolsillo.add(new VistaMoneda(80, 30, 500, 102));
-        monedasEnBolsillo.add(new VistaMoneda(150, 30, 100, 103));
-        monedasEnBolsillo.add(new VistaMoneda(220, 30, 100, 104));
+        monedasEnBolsillo.add(new VistaMoneda(10, 30, 1000, ThreadLocalRandom.current().nextInt(100, 1000)));
+        monedasEnBolsillo.add(new VistaMoneda(80, 30, 500, ThreadLocalRandom.current().nextInt(100, 1000)));
+        monedasEnBolsillo.add(new VistaMoneda(150, 30, 100, ThreadLocalRandom.current().nextInt(100, 1000)));
+        monedasEnBolsillo.add(new VistaMoneda(220, 30, 100, ThreadLocalRandom.current().nextInt(100, 1000)));
         this.monedaSeleccionada = null;
     }
 
