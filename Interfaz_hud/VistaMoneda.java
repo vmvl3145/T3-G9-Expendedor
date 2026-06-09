@@ -27,4 +27,8 @@ public class VistaMoneda extends JPanel {
         g.drawString("$" + this.valor, this.x + 15, this.y + 85);
         g.drawString("Serie:" + this.serie, this.x + 3, this.y + 5);
     }
+
+    public int getX() { return this.x; }
+    public int getY() { return this.y; }
+    public int getValor() { return this.valor; }
 }

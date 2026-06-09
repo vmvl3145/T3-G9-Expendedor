@@ -22,6 +22,7 @@ public class PanelPrincipal extends JPanel implements MouseListener {
         this.setLayout(new GridLayout(1, 2));
         this.add(exp);
         this.add(com);
+        this.addMouseListener(this);
     }
 
     @Override
