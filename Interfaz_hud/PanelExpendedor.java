@@ -66,14 +66,8 @@ public class PanelExpendedor extends JPanel {
         }
 
         // vidrio
-        if (y >= 110 && y <= 180) {
-            if (x >= 100 && x <= 140) return 1;
-            if (x >= 175 && x <= 215) return 2;
-            if (x >= 250 && x <= 290) return 3;
-        }
-        if (y >= 270 && y <= 310) {
-            if (x >= 100 && x <= 165) return 4;
-            if (x >= 210 && x <= 275) return 5;
+        if (x >= 80 && x <= 330 && y >= 80 && y <= 430) {
+            return -2; // -2 = Rellenado de máquina
         }
         return -1;
     }

@@ -31,4 +31,5 @@ public class VistaMoneda extends JPanel {
     public int getX() { return this.x; }
     public int getY() { return this.y; }
     public int getValor() { return this.valor; }
+    public int getSerie() { return this.serie; }
 }

@@ -76,7 +76,7 @@ public class PanelComprador extends JPanel {
         g.setFont(new Font("Arial", Font.BOLD, 12));
         g.drawString("ESTADO DE LA COMPRA:", 45, 330);
         g.setColor(colorMensaje);
-        g.setFont(new Font("Arial", Font.PLAIN, 12));
+        g.setFont(new Font("Arial", Font.PLAIN, 13));
         g.drawString(mensajeEstado, 45, 355);
     }
     public void efectuarCompra(int idProducto) {
@@ -88,7 +88,7 @@ public class PanelComprador extends JPanel {
 
             // Compra exitosa
             this.idUltimoProductoComprado = idProducto;
-            this.nombreUltimoProducto = prod.consumir();
+            this.nombreUltimoProducto = prod.consumir() + " (Serie: " + prod.getNumeroDeSerie() + ")";
             this.mensajeEstado = "¡Éxito! Retira tu " + this.nombreUltimoProducto;
             this.colorMensaje = new Color(0, 128, 0);
 
@@ -136,9 +136,10 @@ public class PanelComprador extends JPanel {
 
         // Si tomamos una moneda, la movemos
         if (monedaRecogida != null) {
-            vueltoVisual.remove(monedaRecogida); // Desaparece de la bandeja de la máquina
-            this.monedero.recibirVuelto(monedaRecogida.getValor()); // Aparece en el bolsillo
-            this.repaint(); // Refrescamos la pantalla
+            vueltoVisual.remove(monedaRecogida);
+            // VALOR Y LA SERIE EXACTA DE LA MONEDA QUE RECOGIMOS
+            this.monedero.recibirVuelto(monedaRecogida.getValor(), monedaRecogida.getSerie());
+            this.repaint();
         }
     }
 }

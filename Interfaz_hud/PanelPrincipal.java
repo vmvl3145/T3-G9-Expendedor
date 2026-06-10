@@ -29,8 +29,13 @@ public class PanelPrincipal extends JPanel implements MouseListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
     }
+    // Dejamos mouseClicked completamente vacío
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked(MouseEvent e) {}
+
+    // Usamos mousePressed porque es 100% preciso e instantáneo
+    @Override
+    public void mousePressed(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
         int mitad = this.getWidth() / 2;
@@ -39,6 +44,9 @@ public class PanelPrincipal extends JPanel implements MouseListener {
             int idSeleccionado = exp.procesarClick(x, y);
             if (idSeleccionado > 0) {
                 com.efectuarCompra(idSeleccionado);
+            } else if (idSeleccionado == -2) {
+                this.expendedorLogico.rellenarExpendedor();
+                System.out.println("Máquina reabastecida.");
             }
         } else {
             com.procesarClick(x - mitad, y);
@@ -46,7 +54,6 @@ public class PanelPrincipal extends JPanel implements MouseListener {
         this.repaint();
     }
 
-    @Override public void mousePressed(MouseEvent e) {}
     @Override public void mouseReleased(MouseEvent e) {}
     @Override public void mouseEntered(MouseEvent e) {}
     @Override public void mouseExited(MouseEvent e) {}

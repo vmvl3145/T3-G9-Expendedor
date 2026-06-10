@@ -88,20 +88,18 @@ public class PanelMonedero extends JPanel {
             if (this.monedaSeleccionada != null) {
                 this.recibirVuelto(this.monedaSeleccionada.getValor());
             }
-
             int valor = monedaClickeada.getValor();
             int serieAleatoria = ThreadLocalRandom.current().nextInt(100, 1000);
-
             if (valor == 1000) this.monedaSeleccionada = new Moneda1000(serieAleatoria);
             else if (valor == 500) this.monedaSeleccionada = new Moneda500(serieAleatoria);
             else if (valor == 100) this.monedaSeleccionada = new Moneda100(serieAleatoria);
-
             monedasEnBolsillo.remove(monedaClickeada);
             this.repaint();
         }
     }
 
-    public void recibirVuelto(int valor) {
+    /** Recibe una moneda específica conservando su número de serie original.*/
+    public void recibirVuelto(int valor, int serieExacta) {
         int maxX = -60;
         for (VistaMoneda m : monedasEnBolsillo) {
             if (m.getX() > maxX) {
@@ -112,9 +110,16 @@ public class PanelMonedero extends JPanel {
         if (nuevaX > 380) {
             nuevaX = 10;
         }
-
-        int serieAleatoria = ThreadLocalRandom.current().nextInt(100, 1000);
-        monedasEnBolsillo.add(new VistaMoneda(nuevaX, 30, valor, serieAleatoria));
+        monedasEnBolsillo.add(new VistaMoneda(nuevaX, 30, valor, serieExacta));
         this.repaint();
+    }
+
+    /**
+     * Método sobrecargado para el botón "Sacar de Billetera" o deselección.
+     * Inventa una serie aleatoria automáticamente.
+     */
+    public void recibirVuelto(int valor) {
+        int serieAleatoria = java.util.concurrent.ThreadLocalRandom.current().nextInt(100, 1000);
+        this.recibirVuelto(valor, serieAleatoria);
     }
 }

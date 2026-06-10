@@ -151,6 +151,24 @@ public void comprarProducto(Moneda moneda, int numero)
             default: return null;
         }
     }
+    public void rellenarExpendedor() {
+        int stockMaximo = 4; // tope visual de productos en la vitrina
+        while (cocacola.size() < stockMaximo) {
+            cocacola.add(new Cocacola(java.util.concurrent.ThreadLocalRandom.current().nextInt(100, 1000)));
+        }
+        while (sprite.size() < stockMaximo) {
+            sprite.add(new Sprite(java.util.concurrent.ThreadLocalRandom.current().nextInt(100, 1000)));
+        }
+        while (fanta.size() < stockMaximo) {
+            fanta.add(new Fanta(java.util.concurrent.ThreadLocalRandom.current().nextInt(100, 1000)));
+        }
+        while (snickers.size() < stockMaximo) {
+            snickers.add(new Snickers(java.util.concurrent.ThreadLocalRandom.current().nextInt(100, 1000)));
+        }
+        while (super8.size() < stockMaximo) {
+            super8.add(new Super8(java.util.concurrent.ThreadLocalRandom.current().nextInt(100, 1000)));
+        }
+    }
 // Getter Producto
 public Producto getProducto() {
     Producto aux = this.productoComprado;
