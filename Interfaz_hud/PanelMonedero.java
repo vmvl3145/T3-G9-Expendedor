@@ -4,6 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Font;
 import java.util.ArrayList;
 import Moneda.*;
 import logica.*;
@@ -15,6 +16,8 @@ public class PanelMonedero extends JPanel {
     public PanelMonedero() {
         this.monedasEnBolsillo = new ArrayList<>();
         this.setBackground(new Color(230, 230, 230));
+
+        // Monedas iniciales con series aleatorias
         monedasEnBolsillo.add(new VistaMoneda(10, 30, 1000, ThreadLocalRandom.current().nextInt(100, 1000)));
         monedasEnBolsillo.add(new VistaMoneda(80, 30, 500, ThreadLocalRandom.current().nextInt(100, 1000)));
         monedasEnBolsillo.add(new VistaMoneda(150, 30, 100, ThreadLocalRandom.current().nextInt(100, 1000)));
@@ -29,31 +32,49 @@ public class PanelMonedero extends JPanel {
 
     public Moneda entregarMonedaSeleccionada() {
         Moneda m = this.monedaSeleccionada;
-        this.monedaSeleccionada = null;
+        this.monedaSeleccionada = null; // Se consume al entregarla
+        this.repaint();
         return m;
-    }
-
-    public Moneda verMonedaSeleccionada() {
-        return this.monedaSeleccionada;
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        // Título
         g.setColor(Color.BLACK);
-        g.drawString("Monedero del Comprador (Click para seleccionarla)", 10, 20);
+        g.setFont(new Font("Arial", Font.BOLD, 12));
+        g.drawString("Monedero del Comprador (Click para seleccionar)", 8, 20);
+
+        // Billetera Infinita
+        g.setColor(new Color(34, 139, 34));
+        g.fillRoundRect(300, 4, 120, 24, 8, 8);
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 11));
+        g.drawString("Sacar de Billetera", 310, 20);
+
+        // Dibujar las monedas en el bolsillo
         for (VistaMoneda m : monedasEnBolsillo) {
             m.paintComponent(g);
         }
-        g.setColor(Color.BLUE);
+        g.setFont(new Font("Arial", Font.BOLD, 12));
         if (monedaSeleccionada != null) {
-            g.drawString("Moneda seleccionada: $" + monedaSeleccionada.getValor(), 10, 140);
+            g.setColor(new Color(0, 102, 204));
+            g.drawString("Moneda lista para pagar: $" + monedaSeleccionada.getValor(), 10, 140);
         } else {
+            g.setColor(Color.GRAY);
             g.drawString("Ninguna moneda seleccionada", 10, 140);
         }
     }
 
     public void procesarClick(int clickX, int clickY) {
+        if (clickX >= 290 && clickX <= 440 && clickY >= 4 && clickY <= 28) {
+            int[] valores = {100, 500, 1000};
+            int valorAleatorio = valores[ThreadLocalRandom.current().nextInt(0, valores.length)];
+            this.recibirVuelto(valorAleatorio);
+            System.out.println("Sacaste una moneda de $" + valorAleatorio + " desde la billetera infinita.");
+            return;
+        }
         VistaMoneda monedaClickeada = null;
         for (VistaMoneda m : monedasEnBolsillo) {
             if (clickX >= m.getX() && clickX <= m.getX() + 60 &&
@@ -69,7 +90,7 @@ public class PanelMonedero extends JPanel {
             }
 
             int valor = monedaClickeada.getValor();
-            int serieAleatoria = (int) (Math.random() * 900) + 100;
+            int serieAleatoria = ThreadLocalRandom.current().nextInt(100, 1000);
 
             if (valor == 1000) this.monedaSeleccionada = new Moneda1000(serieAleatoria);
             else if (valor == 500) this.monedaSeleccionada = new Moneda500(serieAleatoria);
@@ -87,12 +108,12 @@ public class PanelMonedero extends JPanel {
                 maxX = m.getX();
             }
         }
-        int nuevaX = maxX + 70;
+        int nuevaX = maxX + 65;
         if (nuevaX > 380) {
             nuevaX = 10;
         }
 
-        int serieAleatoria = (int) (Math.random() * 900) + 100;
+        int serieAleatoria = ThreadLocalRandom.current().nextInt(100, 1000);
         monedasEnBolsillo.add(new VistaMoneda(nuevaX, 30, valor, serieAleatoria));
         this.repaint();
     }

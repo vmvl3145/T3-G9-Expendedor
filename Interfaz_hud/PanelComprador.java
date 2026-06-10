@@ -3,8 +3,6 @@ package Interfaz_hud;
 import javax.swing.JPanel;
 import java.awt.*;
 import java.util.ArrayList;
-
-import Productos.Producto;
 import logica.Expendedor;
 import Moneda.Moneda;
 import Excepciones.*;
@@ -129,7 +127,7 @@ public class PanelComprador extends JPanel {
         // Verificar si se hizo click en alguna moneda del vuelto
         VistaMoneda monedaRecogida = null;
         for (VistaMoneda m : vueltoVisual) {
-            // Creamos una hitbox alrededor de la moneda
+            // hitbox/clickbox alrededor de la moneda
             if (x >= m.getX() && x <= m.getX() + 60 && y >= m.getY() && y <= m.getY() + 70) {
                 monedaRecogida = m;
                 break;

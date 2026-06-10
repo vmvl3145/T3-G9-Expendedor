@@ -40,7 +40,7 @@ public class PanelExpendedor extends JPanel {
         g.setColor(Color.WHITE); g.drawString("2", 372, 242);
 
         // Fanta
-        g.setColor(Color.ORANGE); g.fillRect(360, 260, 30, 25);
+        g.setColor(new Color(0xB4703D)); g.fillRect(360, 260, 30, 25);
         g.setColor(Color.WHITE); g.drawString("3", 372, 277);
 
         // Snickers
