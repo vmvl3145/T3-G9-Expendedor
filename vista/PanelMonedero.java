@@ -1,4 +1,4 @@
-package Interfaz_hud;
+package vista;
 
 import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JPanel;
@@ -7,12 +7,14 @@ import java.awt.Graphics;
 import java.awt.Font;
 import java.util.ArrayList;
 import Moneda.*;
-import logica.*;
 
+/** Modela el inventario de dinero en posesión del cliente.
+ * Gestiona la selección física de la moneda activa para el pago y proporciona la funcionalidad interactiva de la billetera infinita para inyectar monedas dinámicamente. */
 public class PanelMonedero extends JPanel {
     private ArrayList<VistaMoneda> monedasEnBolsillo;
     private Moneda monedaSeleccionada;
 
+    /** Constructor por defecto. Inicializa el almacenamiento e introduce la carga de monedas iniciales con números de serie únicos. */
     public PanelMonedero() {
         this.monedasEnBolsillo = new ArrayList<>();
         this.setBackground(new Color(230, 230, 230));
@@ -24,19 +26,16 @@ public class PanelMonedero extends JPanel {
         monedasEnBolsillo.add(new VistaMoneda(220, 30, 100, ThreadLocalRandom.current().nextInt(100, 1000)));
         this.monedaSeleccionada = null;
     }
-
-    public void agregarMoneda(VistaMoneda m) {
-        this.monedasEnBolsillo.add(m);
-        this.repaint();
-    }
-
+    /** Remueve la moneda seleccionada actualmente de la mano del usuario para consumarla en un pago.
+     * @return La instancia de la Moneda lógica lista para la transacción, o null si no hay selección. */
     public Moneda entregarMonedaSeleccionada() {
         Moneda m = this.monedaSeleccionada;
         this.monedaSeleccionada = null; // Se consume al entregarla
         this.repaint();
         return m;
     }
-
+    /** Dibuja los textos instructivos, el botón interactivo de la billetera infinita y delega el renderizado individual de las monedas en el bolsillo.
+     * @param g El contexto gráfico utilizado para pintar. */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -66,7 +65,10 @@ public class PanelMonedero extends JPanel {
             g.drawString("Ninguna moneda seleccionada", 10, 140);
         }
     }
-
+    /** Evalúa las colisiones del mouse dentro del monedero.
+     * Detecta si se accionó el botón de recarga de la billetera o si se seleccionó/deseleccionó una moneda.
+     * @param clickX Coordenada horizontal del click.
+     * @param clickY Coordenada vertical del click. */
     public void procesarClick(int clickX, int clickY) {
         if (clickX >= 290 && clickX <= 440 && clickY >= 4 && clickY <= 28) {
             int[] valores = {100, 500, 1000};
@@ -98,7 +100,9 @@ public class PanelMonedero extends JPanel {
         }
     }
 
-    /** Recibe una moneda específica conservando su número de serie original.*/
+    /** Añade una moneda recuperada del vuelto de la máquina al bolsillo, calculando de forma automática su posición horizontal para evitar solapamientos visuales y preservando de manera intacta su número de serie original.
+     * @param valor Valor denominativo de la moneda ($100, $500, $1000).
+     * @param serieExacta Número de serie único e inmutable proveniente de la máquina. */
     public void recibirVuelto(int valor, int serieExacta) {
         int maxX = -60;
         for (VistaMoneda m : monedasEnBolsillo) {
@@ -115,9 +119,9 @@ public class PanelMonedero extends JPanel {
     }
 
     /**
-     * Método sobrecargado para el botón "Sacar de Billetera" o deselección.
-     * Inventa una serie aleatoria automáticamente.
-     */
+     * Método sobrecargado utilizado por el botón "Sacar de Billetera".
+     * Añade una moneda al bolsillo generando un número de serie único.
+     * @param valor Valor denominativo de la moneda generada. */
     public void recibirVuelto(int valor) {
         int serieAleatoria = java.util.concurrent.ThreadLocalRandom.current().nextInt(100, 1000);
         this.recibirVuelto(valor, serieAleatoria);

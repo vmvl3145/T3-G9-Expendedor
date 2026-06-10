@@ -1,4 +1,4 @@
-package Interfaz_hud;
+package vista;
 
 import javax.swing.JPanel;
 import java.awt.*;
@@ -7,6 +7,9 @@ import logica.Expendedor;
 import Moneda.Moneda;
 import Excepciones.*;
 
+/** Representación visual del entorno del usuario o comprador.
+ * Administra la interfaz de recolección de productos consumidos, la visualización
+ * de los mensajes de estado dinámicos del sistema, la bandeja física de vuelto y el monedero del cliente. */
 public class PanelComprador extends JPanel {
     private Expendedor exp;
     private PanelMonedero monedero;
@@ -17,6 +20,8 @@ public class PanelComprador extends JPanel {
     private ArrayList<VistaMoneda> vueltoVisual = new ArrayList<>();
     private Image imgCoca, imgSprite, imgFanta, imgSnickers, imgSuper8;
 
+    /** Constructor que inicializa los recursos gráficos asociados a los productos y posiciona de forma absoluta el subpanel del monedero.
+     * @param exp Instancia del expendedor lógico para la comunicación de transacciones. */
     public PanelComprador(Expendedor exp) {
         this.exp = exp;
         this.setBackground(Color.WHITE);
@@ -33,6 +38,8 @@ public class PanelComprador extends JPanel {
         this.imgSuper8 = new javax.swing.ImageIcon("recursos/super8.png").getImage();
     }
 
+    /** Dibuja la bandeja de retiro de productos, el área de vuelto y los textos informativos de estado del simulador.
+     * @param g El contexto gráfico utilizado para pintar. */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -79,6 +86,9 @@ public class PanelComprador extends JPanel {
         g.setFont(new Font("Arial", Font.PLAIN, 13));
         g.drawString(mensajeEstado, 45, 355);
     }
+    /**Intenta ejecutar la transacción de compra en el modelo lógico.
+     * Captura las excepciones de negocio (pago incorrecto, saldo insuficiente, falta de stock) para actualizar la interfaz con alertas visuales y extrae el vuelto de la máquina de forma segura.
+     * @param idProducto Código identificador del producto seleccionado (1 al 5). */
     public void efectuarCompra(int idProducto) {
         Moneda monedaParaPago = monedero.entregarMonedaSeleccionada();
 
@@ -118,7 +128,10 @@ public class PanelComprador extends JPanel {
             this.repaint();
         }
     }
-
+    /** Procesa los impactos del mouse en la zona derecha de la aplicación.
+     * Desvía el flujo si el clic ocurre dentro del monedero o evalúa la colisión con las cajas de impacto (hitboxes) de las monedas alojadas en la bandeja de vuelto.
+     * @param x Coordenada horizontal relativa al panel.
+     * @param y Coordenada vertical relativa al panel. */
     public void procesarClick(int x, int y) {
         if (y >= 420 && y <= 570) {
             this.monedero.procesarClick(x - 10, y - 420);

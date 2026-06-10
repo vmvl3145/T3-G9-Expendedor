@@ -1,15 +1,23 @@
-package Interfaz_hud;
+package vista;
 import Productos.Producto;
 import logica.Deposito;
 import logica.Expendedor;
 import javax.swing.ImageIcon;
 import java.awt.*;
 
+/** Componente gráfico encargado de simular el interior transparente de la máquina expendedora.
+ * Implementa el Stock Visual consultando en tiempo real las estructuras del modelo para mostrar los productos ordenados. */
 public class VidrioBebida {
     private final Expendedor exp;
     private int x, y, width, height;
     private Image imgCocaCola, imgSprite, imgFanta, imgSnickers, imgSuper8;
 
+    /** Constructor de la vitrina. Almacena las coordenadas dimensionales y guarda la referencia del expendedor lógico.
+     * @param x Ubicación horizontal en el panel.
+     * @param y Ubicación vertical en el panel.
+     * @param width Ancho de la vitrina.
+     * @param height Alto de la vitrina.
+     * @param exp Referencia al modelo lógico de la máquina. */
     public VidrioBebida(int x, int y, int width, int height, Expendedor exp) {
         this.x = x;
         this.y = y;
@@ -23,6 +31,8 @@ public class VidrioBebida {
         this.imgSuper8 = new ImageIcon("recursos/super8.png").getImage();
     }
 
+    /** Dibuja el fondo translúcido del vidrio, las repisas
+     * @param g El contexto gráfico utilizado para pintar. */
     public void paintComponent(Graphics g) {
         // Fondo vidrio
         g.setColor(new Color(173, 216, 230, 130));
@@ -44,7 +54,18 @@ public class VidrioBebida {
         dibujarFilaProductos(g, 5, "$300", imgSuper8,   this.x + 130, this.y + 180, 75, 65);
     }
 
-    /** Dibuja dinámicamente los productos de un depósito específico en forma de fila tridimensional.*/
+    /**
+     * Proyecta en pantalla una fila tridimensional de productos basándose estrictamente en el tamaño del depósito analizado.
+     * Aplica desplazamientos escalados (offsets) de forma inversa para simular orden de filas y renderiza señales de desabastecimiento en caso de stock cero.
+     * @param g Contexto gráfico de dibujo.
+     * @param id Identificador numérico del depósito (1 al 5).
+     * @param precio Etiqueta textual del costo comercial.
+     * @param img Textura de la imagen del producto.
+     * @param baseX Ubicación inicial horizontal en la repisa.
+     * @param baseY Ubicación inicial vertical en la repisa.
+     * @param ancho Ancho geométrico del producto en píxeles.
+     * @param alto Alto geométrico del producto en píxeles.
+     */
     private void dibujarFilaProductos(Graphics g, int id, String precio, Image img, int baseX, int baseY, int ancho, int alto) {
         Deposito<Producto> deposito = this.exp.getDepositoPorNum(id);
 
