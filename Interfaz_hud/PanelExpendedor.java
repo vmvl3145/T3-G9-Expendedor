@@ -12,7 +12,7 @@ public class PanelExpendedor extends JPanel {
     public PanelExpendedor(Expendedor exp) {
         this.exp = exp;
         this.setBackground(Color.LIGHT_GRAY);
-        this.vidrio = new VidrioBebida(80, 80, 250, 350);
+        this.vidrio = new VidrioBebida(80, 80, 250, 350, this.exp);
     }
 
     @Override

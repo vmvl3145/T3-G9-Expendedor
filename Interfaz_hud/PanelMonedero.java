@@ -55,7 +55,6 @@ public class PanelMonedero extends JPanel {
 
     public void procesarClick(int clickX, int clickY) {
         VistaMoneda monedaClickeada = null;
-
         for (VistaMoneda m : monedasEnBolsillo) {
             if (clickX >= m.getX() && clickX <= m.getX() + 60 &&
                     clickY >= m.getY() && clickY <= m.getY() + 90) {
@@ -65,6 +64,10 @@ public class PanelMonedero extends JPanel {
         }
 
         if (monedaClickeada != null) {
+            if (this.monedaSeleccionada != null) {
+                this.recibirVuelto(this.monedaSeleccionada.getValor());
+            }
+
             int valor = monedaClickeada.getValor();
             int serieAleatoria = (int) (Math.random() * 900) + 100;
 
@@ -73,8 +76,24 @@ public class PanelMonedero extends JPanel {
             else if (valor == 100) this.monedaSeleccionada = new Moneda100(serieAleatoria);
 
             monedasEnBolsillo.remove(monedaClickeada);
-            System.out.println("Moneda de $" + valor + " (Serie: " + serieAleatoria + ") cargada.");
             this.repaint();
         }
+    }
+
+    public void recibirVuelto(int valor) {
+        int maxX = -60;
+        for (VistaMoneda m : monedasEnBolsillo) {
+            if (m.getX() > maxX) {
+                maxX = m.getX();
+            }
+        }
+        int nuevaX = maxX + 70;
+        if (nuevaX > 380) {
+            nuevaX = 10;
+        }
+
+        int serieAleatoria = (int) (Math.random() * 900) + 100;
+        monedasEnBolsillo.add(new VistaMoneda(nuevaX, 30, valor, serieAleatoria));
+        this.repaint();
     }
 }

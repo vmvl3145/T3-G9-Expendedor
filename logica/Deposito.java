@@ -21,7 +21,13 @@ public class Deposito<T> {
             lista.add(item);
         }
     }
-
+    /**
+     * Devuelve la cantidad actual de elementos en el depósito.
+     * @return Cantidad de elementos
+     */
+    public int size() {
+        return this.lista.size();
+    }
     /** Retira y devuelve el primero objeto dentro de Deposito
      * @return El objeto en el índice 0 o si no, null si Deposito esta vacío
      */
@@ -31,5 +37,18 @@ public class Deposito<T> {
         }
         return lista.remove(0);
     }
+
+    /**
+     * Permite examinar un elemento en una posición específica sin removerlo.
+     * @param index Posición del elemento
+     * @return El objeto en dicha posición o null si está fuera de rango
+     */
+    public T getElemento(int index) {
+        if (index >= 0 && index < this.lista.size()) {
+            return this.lista.get(index);
+        }
+        return null;
+    }
+
 }
 

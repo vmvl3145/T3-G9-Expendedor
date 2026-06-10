@@ -1,16 +1,21 @@
 package Interfaz_hud;
+import Productos.Producto;
+import logica.Deposito;
+import logica.Expendedor;
 import javax.swing.ImageIcon;
 import java.awt.*;
 
 public class VidrioBebida {
+    private final Expendedor exp;
     private int x, y, width, height;
     private Image imgCocaCola, imgSprite, imgFanta, imgSnickers, imgSuper8;
 
-    public VidrioBebida(int x, int y, int width, int height) {
+    public VidrioBebida(int x, int y, int width, int height, Expendedor exp) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.exp = exp;
         this.imgCocaCola = new ImageIcon("recursos/cocacola.png").getImage();
         this.imgSprite = new ImageIcon("recursos/sprite.png").getImage();
         this.imgFanta = new ImageIcon("recursos/fanta.png").getImage();
@@ -19,55 +24,56 @@ public class VidrioBebida {
     }
 
     public void paintComponent(Graphics g) {
-        // vidrio
-        g.setColor(new Color(173, 216, 230, 150));
+        // Fondo vidrio
+        g.setColor(new Color(173, 216, 230, 130));
         g.fillRect(this.x, this.y, this.width, this.height);
 
-        // Repisas
+        // repisas
         g.setColor(Color.GRAY);
-        g.drawLine(this.x, this.y + 110, this.x + this.width, this.y + 110);
-        g.drawLine(this.x, this.y + 240, this.x + this.width, this.y + 240);
+        g.drawLine(this.x, this.y + 120, this.x + this.width, this.y + 120); // Repisa Superior
+        g.drawLine(this.x, this.y + 250, this.x + this.width, this.y + 250); // Repisa Inferior
         g.setFont(new Font("Arial", Font.BOLD, 14));
 
-        // CocaCola (id 1)
-        g.setColor(Color.RED);
-        g.fillRect(this.x + 20, this.y + 30, 40, 70);
-        g.drawImage(imgCocaCola, this.x + 8, this.y + 33, 65, 65, null);
-        g.setColor(Color.BLACK);
-        g.drawString("1", this.x + 35, this.y + 125);
+        // Fila BEBIDAS (CocaCola id 1, Sprite id 2 y Fanta id 3)
+        dibujarFilaProductos(g, 1, "$1000", imgCocaCola, this.x + 0, this.y + 40, 65, 60);
+        dibujarFilaProductos(g, 2, "$900", imgSprite,   this.x + 105, this.y + 40, 40, 60);
+        dibujarFilaProductos(g, 3, "$900", imgFanta,    this.x + 170, this.y + 40, 65, 60);
 
-        // Sprite (id 2)
-        g.setColor(Color.GREEN.darker());
-        g.fillRect(this.x + 95, this.y + 30, 40, 70);
-        g.drawImage(imgSprite, this.x + 95, this.y + 30, 40, 70, null);
-        g.setColor(Color.BLACK);
-        g.drawString("2", this.x + 110, this.y + 125);
-
-        // Fanta (id 3)
-        g.setColor(Color.ORANGE);
-        g.fillRect(this.x + 170, this.y + 30, 40, 70);
-        g.drawImage(imgFanta, this.x + 160, this.y + 25, 60, 80, null);
-        g.setColor(Color.BLACK);
-        g.drawString("3", this.x + 185, this.y + 125);
-
-        // Snickers (id 4)
-        g.setColor(new Color(101, 67, 33));
-        g.fillRect(this.x + 20, this.y + 190, 65, 35);
-        g.drawImage(imgSnickers, this.x + 20, this.y + 175, 65, 65, null);
-        g.setColor(Color.BLACK);
-        g.drawString("4", this.x + 45, this.y + 255);
-
-        // Super8 (id 5)
-        g.setColor(Color.YELLOW.darker());
-        g.fillRect(this.x + 130, this.y + 190, 65, 35);
-        g.drawImage(imgSuper8, this.x + 133, this.y + 160, 60, 85, null);
-        g.setColor(Color.BLACK);
-        g.drawString("5", this.x + 155, this.y + 255);
+        // Fila DULCES (Snickers id 4 y Super8 id 5)
+        dibujarFilaProductos(g, 4, "$600", imgSnickers, this.x + 10, this.y + 181, 75, 65);
+        dibujarFilaProductos(g, 5, "$300", imgSuper8,   this.x + 130, this.y + 180, 75, 65);
     }
 
-    private void dibujarProducto(Graphics g, Image img, int x, int y, String id) {
-        g.drawImage(img, x, y, 40, 70, null);
+    /** Dibuja dinámicamente los productos de un depósito específico en forma de fila tridimensional.*/
+    private void dibujarFilaProductos(Graphics g, int id, String precio, Image img, int baseX, int baseY, int ancho, int alto) {
+        Deposito<Producto> deposito = this.exp.getDepositoPorNum(id);
+
+        if (deposito == null || deposito.size() == 0) {
+            // Si no hay stock, pintamos la X
+            g.setColor(Color.RED);
+            g.drawString("X", baseX + (ancho/2) - 3, baseY + (alto/2) + 5);
+            g.setColor(Color.BLACK);
+            g.drawString(String.valueOf(id), baseX + (ancho/2) - 3, baseY + alto + 15);
+            return;
+        }
+        int stockActual = deposito.size();
+        for (int i = stockActual - 1; i >= 0; i--) {
+            int offsetX = i * 5;
+            int offsetY = i * 4;
+            int drawX = baseX + offsetX;
+            int drawY = baseY - offsetY;
+
+            if (i > 0) {
+                g.setColor(new Color(0, 0, 0, 40));
+                g.fillRect(drawX + 2, drawY + 2, ancho, alto);
+            }
+            g.drawImage(img, drawX, drawY, ancho, alto, null);
+        }
         g.setColor(Color.BLACK);
-        g.drawString(id, x + 15, y + 85);
+        g.setFont(new Font("Arial", Font.BOLD, 13));
+        g.drawString(String.valueOf(id), baseX + (ancho / 2) - 4, baseY + alto + 16);
+        g.setColor(new Color(0, 100, 0));
+        g.setFont(new Font("Arial", Font.BOLD, 15));
+        g.drawString(precio, baseX + (ancho / 2) - 14, baseY + alto + 28);
     }
 }

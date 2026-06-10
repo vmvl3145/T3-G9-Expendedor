@@ -99,27 +99,24 @@ public void comprarProducto(Moneda moneda, int numero)
         throws PagoIncorrectoException, NoHayProductoException, PagoInsuficienteException {
 
     if (moneda == null) {
-        throw new PagoIncorrectoException("No se ha pagado.");
+        throw new PagoIncorrectoException("Falta dinero para comprar.");
     }
 
     Enumeracion seleccion = getEnumeracion(numero);
 
-    // Verificar stock
+    if (moneda.getValor() < seleccion.getPrecio()) {
+        montoVuelto.add(moneda); // Se devuelve la moneda ingresada
+        throw new PagoInsuficienteException("Dinero insuficiente para " + seleccion.getNombre());
+    }
+
     Deposito<Producto> deposito = getDeposito(seleccion);
     Producto producto = deposito.get();
     if (producto == null) {
         montoVuelto.add(moneda);
         throw new NoHayProductoException("No queda " + seleccion.getNombre());
     }
-    // Verificar si el dinero alcanza
-    if (moneda.getValor() < seleccion.getPrecio()) {
-        montoVuelto.add(moneda); // Se devuelve la moneda ingresada
-        throw new PagoInsuficienteException("Dinero insuficiente para " + seleccion.getNombre());
-    }
 
-    // Si la compra es exitosa...
     montoCompra.add(moneda);
-
     this.productoComprado = producto;
 
     int vuelto = moneda.getValor() - seleccion.getPrecio();
@@ -137,8 +134,23 @@ public void comprarProducto(Moneda moneda, int numero)
             vuelto -= 100;
         }
     }
-}
 
+}
+    /**
+     * Devuelve el depósito correspondiente al número identificador del producto.
+     * @param numero ID del producto (1 al 5)
+     * @return Instancia de Deposito o null si el ID no es válido
+     */
+    public Deposito<Producto> getDepositoPorNum(int numero) {
+        switch (numero) {
+            case 1: return this.cocacola;
+            case 2: return this.sprite;
+            case 3: return this.fanta;
+            case 4: return this.snickers;
+            case 5: return this.super8;
+            default: return null;
+        }
+    }
 // Getter Producto
 public Producto getProducto() {
     Producto aux = this.productoComprado;

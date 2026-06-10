@@ -87,27 +87,12 @@ public class PanelComprador extends JPanel {
         try {
             exp.comprarProducto(monedaParaPago, idProducto);
             Productos.Producto prod = exp.getProducto();
+
             // Compra exitosa
             this.idUltimoProductoComprado = idProducto;
             this.nombreUltimoProducto = prod.consumir();
             this.mensajeEstado = "¡Éxito! Retira tu " + this.nombreUltimoProducto;
             this.colorMensaje = new Color(0, 128, 0);
-
-            // Extraer vuelto
-            vueltoVisual.clear();
-            Moneda m;
-            int coordX = 40;
-            int coordY = 160;
-
-            while ((m = exp.getVuelto()) != null) {
-                vueltoVisual.add(new VistaMoneda(coordX, coordY, m.getValor(), 1000 + (int)(Math.random()*100)));
-                coordX += 65; // Mover a la derecha para la próxima moneda
-                // salto de línea si son muchas monedas
-                if (coordX > 350) {
-                    coordX = 40;
-                    coordY += 70;
-                }
-            }
 
         } catch (PagoIncorrectoException e) {
             this.mensajeEstado = "Error: " + e.getMessage() + " (Selecciona monedas abajo).";
@@ -119,16 +104,43 @@ public class PanelComprador extends JPanel {
             this.mensajeEstado = "Error: El producto seleccionado está agotado.";
             this.colorMensaje = Color.RED;
         } finally {
-            this.repaint();
-            Moneda mVuelto;
-            while ((mVuelto = exp.getVuelto()) != null) {
+            vueltoVisual.clear();
+            Moneda m;
+            int coordX = 40;
+            int coordY = 160;
+
+            while ((m = exp.getVuelto()) != null) {
+                vueltoVisual.add(new VistaMoneda(coordX, coordY, m.getValor(), 1000 + (int)(Math.random()*100)));
+                coordX += 65;
+                if (coordX > 350) {
+                    coordX = 40;
+                    coordY += 70;
+                }
             }
+            this.repaint();
         }
     }
 
     public void procesarClick(int x, int y) {
-        if (y >= 420 && y <= 570 && x >= 10 && x <= 460) {
-            monedero.procesarClick(x - 10, y - 420);
+        if (y >= 420 && y <= 570) {
+            this.monedero.procesarClick(x - 10, y - 420);
+            return;
+        }
+        // Verificar si se hizo click en alguna moneda del vuelto
+        VistaMoneda monedaRecogida = null;
+        for (VistaMoneda m : vueltoVisual) {
+            // Creamos una hitbox alrededor de la moneda
+            if (x >= m.getX() && x <= m.getX() + 60 && y >= m.getY() && y <= m.getY() + 70) {
+                monedaRecogida = m;
+                break;
+            }
+        }
+
+        // Si tomamos una moneda, la movemos
+        if (monedaRecogida != null) {
+            vueltoVisual.remove(monedaRecogida); // Desaparece de la bandeja de la máquina
+            this.monedero.recibirVuelto(monedaRecogida.getValor()); // Aparece en el bolsillo
+            this.repaint(); // Refrescamos la pantalla
         }
     }
 }
